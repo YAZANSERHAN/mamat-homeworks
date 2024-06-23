@@ -7,8 +7,6 @@ uniqarticles=$(echo "$articles" | sort | uniq)
 
 words=("Netanyahu" "Gvir" "Lapid" "Gantz")
 
-log_file="script_log.txt"  # Log file to track script execution
-
 for url in $uniqarticles; do 
     # Retrieve article content
     article_content=$(wget --no-check-certificate -q -O - "$url" 2>/dev/null)
