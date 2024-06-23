@@ -27,8 +27,8 @@ for url in $uniqarticles; do
 		count=$(echo $article_content | grep -o -i "$word" | wc -l)
 		if [[ $count -ne 0 ]]; then 
 			allzero=false
+			output="$output, $word, $count"
 		fi
-		output="$output, $word, $count"
 	done
 
 if ! $allzero; then
@@ -37,3 +37,8 @@ fi
 
 echo "$output"
 done
+
+
+
+
+
