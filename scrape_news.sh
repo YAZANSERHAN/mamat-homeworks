@@ -18,7 +18,7 @@ for url in $uniqarticles; do
         count=$(echo "$article_content" | grep -o -i "$word" | wc -l)
         if [[ $count -ne 0 ]]; then 
             output="$output, $word, $count"  # Include the name and count in output
-            nonzero=true  # Set mention_found to true if any mention is found
+            nonzero=true  # Set nonzero to true if any nonzero is found
         fi
     done
 
