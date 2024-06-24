@@ -20,6 +20,6 @@ for url in $articles; do
     if (( (( N_count == 0 )) && (( G_count == 0 )) )); then
         echo "$url"", -"
     else
-        echo "$url", "Netanyahu,"" $N_Counter"", Gantz,"" $G_Counter""
+        echo "$url", "Netanyahu,"" $N_Count"", Gantz,"" $G_Count""
     fi
 done
