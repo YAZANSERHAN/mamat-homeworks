@@ -2,8 +2,7 @@
 
 site="https://www.ynetnews.com/category/3082"
 data=$(wget --no-check-certificate -q -O - $site 2>/dev/null)
-articles=$(echo "$data" | grep -oP "hhttps://(www.)?ynetnews.com/article/[0-9a-zA-Z]+")
-uniqarticles=$(echo "$articles" | sort | uniq)
+articles=$(echo "$data" | grep -oP "hhttps://(www.)?ynetnews.com/article/[0-9a-zA-Z]+" 3028| sort| uniq)
 
 for url in $uniqarticles; do 
     # Retrieve article content
