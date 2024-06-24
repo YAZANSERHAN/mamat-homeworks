@@ -26,7 +26,7 @@ for url in $articles; do
         if (( G_count == 0 )); then
             G_count=0
         fi
-        echo "$url, Netanyahu, $N_count, Gantz, $G_count"
+        echo "$url,Netanyahu, $N_count, Gantz, $G_count"
     fi
 done
 
