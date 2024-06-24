@@ -7,18 +7,15 @@ wget -q -O ynetnews "https://www.ynetnews.com/category/3082"
 # Extract article URLs
 articles=$(grep -oP "https://(www\.)?ynetnews.com/article/[0-9a-zA-Z]+" ynetnews | sort | uniq)
 
-# Download all articles
-wget --no-check-certificate -q -i <(echo "$articles")
-
-# Process each URL
+# Download and process each article
 for url in $articles; do
-    # Extract the article filename from the URL
-    filename=$(echo "$url" | grep -o '[^/]\+$')
-
-    # Count occurrences of 'Netanyahu' and 'Gantz' in the article content
-    N_count=$(grep -o -i "Netanyahu" "$filename" | wc -l)
-    G_count=$(grep -o -i "Gantz" "$filename" | wc -l)
-
+    # Get article content
+    article_content=$(wget --no-check-certificate -q -O - "$url" 2>/dev/null)
+    
+    # Count occurrences of 'Netanyahu' and 'Gantz'
+    N_count=$(echo "$article_content" | grep -o -i "Netanyahu" | wc -l)
+    G_count=$(echo "$article_content" | grep -o -i "Gantz" | wc -l)
+    
     # Output the result
     if (( N_count == 0 && G_count == 0 )); then
         echo "$url, -"
