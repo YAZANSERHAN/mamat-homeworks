@@ -1,10 +1,10 @@
 #!/bin/bash
 # This script calculates how many times the words "Netanyahu" and "Gantz" appear in Ynet articles
 # Download the main page content
-wget -q -O - "https://www.ynetnews.com/category/3082" 
+wget -q -O - "https://www.ynetnews.com/category/3082" >> ynetnews
 
 # Extract article URLs
-articles=$(grep -oP "https://(www\.)?ynetnews.com/article/[0-9a-zA-Z]+" 3082| sort | uniq)
+articles=$(grep -oP "https://(www\.)?ynetnews.com/article/[0-9a-zA-Z]+" ynetnews| sort | uniq)
 
 # Process each URL
 for url in $articles; do
