@@ -4,8 +4,8 @@
 # Download the main page content
 main_page_content=$(wget -q -O - "https://www.ynetnews.com/category/3082")
 
-# Extract article URLs
-articles=$(echo "$main_page_content" | grep -oP "https://(www.)?ynetnews.com/article/[0-9a-zA-Z]+" | sort | uniq)
+# Extract unique article URLs
+articles=$(echo "$main_page_content" | grep -oP "https://(www\.)?ynetnews.com/article/[0-9a-zA-Z]+" | sort | uniq)
 
 # Process each article URL
 for url in $articles; do
@@ -23,7 +23,8 @@ for url in $articles; do
     else
         echo "$url, Netanyahu, $N_count, Gantz, $G_count"
     fi
-    } &
+} &
 done
+
 # Wait for all background jobs to complete
 wait
