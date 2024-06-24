@@ -2,7 +2,7 @@
 
 site="https://www.ynetnews.com/category/3082"
 data=$(wget --no-check-certificate -q -O - $site 2>/dev/null)
-articles=$(echo "$data" | grep -oP "https://www.ynetnews.com/article/[0-9a-zA-Z]+")
+articles=$(echo "$data" | grep -oP "hhttps://(www.)?ynetnews.com/article/[0-9a-zA-Z]++")
 uniqarticles=$(echo "$articles" | sort | uniq)
 
 words=("Netanyahu" "Gantz")
