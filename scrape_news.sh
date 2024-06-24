@@ -5,7 +5,7 @@
 wget -q -O ynetnews "https://www.ynetnews.com/category/3082"
 
 # Extract article URLs
-articles=$(grep -oP "https://(www\.)?ynetnews.com/article/[0-9a-zA-Z]+" ynetnews | sort | uniq)
+articles=$(grep -oP "https://(www.)?ynetnews.com/article/[0-9a-zA-Z]+" ynetnews| sort | uniq)
 
 # Download and process each article
 for url in $articles; do
