@@ -15,7 +15,7 @@ for url in $uniqarticles; do
         if(( (( $N_Counter==0 )) && (( $G_Counter==0 )); then 
             output="$url, -"  # Set output to include a dash if all zero
         else 
-            output="$url", "Netanyahu,"" $N_Counter"", Gantz,"" $G_Counter""
-            echo $output
+          echo "$url", "Netanyahu,"" $N_Counter"", Gantz,"" $G_Counter""
+            
         fi
 done 
