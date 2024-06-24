@@ -1,11 +1,10 @@
 #!/bin/bash
 # This script calculates how many times the words "Netanyahu" and "Gantz" appear in Ynet articles
-
 # Download the main page content
-wget -q -O - "https://www.ynetnews.com/category/3082" > ynetnews.html
+wget -q -O - "https://www.ynetnews.com/category/3082" 
 
 # Extract article URLs
-articles=$(grep -oP "https://(www\.)?ynetnews.com/article/[0-9a-zA-Z]+" ynetnews.html | sort | uniq)
+articles=$(grep -oP "https://(www\.)?ynetnews.com/article/[0-9a-zA-Z]+" 3082| sort | uniq)
 
 # Process each URL
 for url in $articles; do
@@ -29,6 +28,3 @@ for url in $articles; do
         echo "$url,Netanyahu, $N_count, Gantz, $G_count"
     fi
 done
-
-# Clean up
-rm ynetnews.html
