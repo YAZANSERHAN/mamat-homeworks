@@ -2,12 +2,12 @@
 # This script calculates how many times the words "Netanyahu" and "Gantz" appear in Ynet articles
 
 # Download the main page content
-wget -q -O ynetnews "https://www.ynetnews.com/category/3082"
+wget -q -O - "https://www.ynetnews.com/category/3082" > ynetnews.html
 
 # Extract article URLs
-articles=$(grep -oP "https://(www.)?ynetnews.com/article/[0-9a-zA-Z]+" ynetnews | sort | uniq)
+articles=$(grep -oP "https://(www\.)?ynetnews.com/article/[0-9a-zA-Z]+" ynetnews.html | sort | uniq)
 
-# Download and process each article
+# Process each URL
 for url in $articles; do
     # Get article content
     article_content=$(wget --no-check-certificate -q -O - "$url" 2>/dev/null)
@@ -20,9 +20,15 @@ for url in $articles; do
     if (( N_count == 0 && G_count == 0 )); then
         echo "$url, -"
     else
+        if (( N_count == 0 )); then
+            N_count=0
+        fi
+        if (( G_count == 0 )); then
+            G_count=0
+        fi
         echo "$url, Netanyahu, $N_count, Gantz, $G_count"
     fi
 done
 
 # Clean up
-rm ynetnews
+rm ynetnews.html
