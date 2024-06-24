@@ -17,7 +17,7 @@ for url in $articles; do
     G_count=$(echo "$article_content" | grep -o -i "Gantz" | wc -l)
     
     # Output the result
-    if (( N_count == 0 && G_count == 0 )); then
+    if (( (( N_count == 0 )) && (( G_count == 0 )) )); then
         echo "$url, -"
     else
         echo "$url, Netanyahu, $N_count, Gantz, $G_count"
