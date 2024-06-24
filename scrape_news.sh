@@ -5,7 +5,7 @@ data=$(wget --no-check-certificate -q -O - $site 2>/dev/null)
 articles=$(echo "$data" | grep -oP "https://www.ynetnews.com/article/[0-9a-zA-Z]+")
 uniqarticles=$(echo "$articles" | sort | uniq)
 
-words=("Netanyahu" "Gvir" "Lapid" "Gantz")
+words=("Netanyahu" "Gvir" "Gantz")
 
 for url in $uniqarticles; do 
     # Retrieve article content
