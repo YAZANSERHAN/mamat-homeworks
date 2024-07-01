@@ -13,16 +13,26 @@ for url in $articles; do
         # Download the article content
         article_content=$(wget --no-check-certificate -q -O - "$url" 2>/dev/null)
 
-        # Count occurrences of 'Netanyahu' and 'Gantz'
-        N_count=$(echo "$article_content" | grep -o -i "Netanyahu" | wc -l)
-        G_count=$(echo "$article_content" | grep -o -i "Gantz" | wc -l)
-
-        # Output the result in the specified format
-        if (( N_count == 0 && G_count == 0 )); then
-            echo "$url, -"
-        else
-            echo "$url, Netanyahu, $N_count, Gantz, $G_count"
-        fi
+        # Use awk to count occurrences of 'Netanyahu' and 'Gantz'
+        awk -v url="$url" '
+        BEGIN {
+            N_count = 0
+            G_count = 0
+        }
+        {
+            N_count += gsub(/Netanyahu/, "", $0)
+            N_count += gsub(/netanyahu/, "", $0)
+            G_count += gsub(/Gantz/, "", $0)
+            G_count += gsub(/gantz/, "", $0)
+        }
+        END {
+            if (N_count == 0 && G_count == 0) {
+                print url ", -"
+            } else {
+                print url ", Netanyahu, " N_count ", Gantz, " G_count
+            }
+        }
+        ' <<< "$article_content"
     } &
 done
 
