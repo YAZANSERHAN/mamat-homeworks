@@ -5,40 +5,26 @@
 main_page_content=$(wget -q -O - "https://www.ynetnews.com/category/3082")
 
 # Extract unique article URLs
-articles=$(echo "$main_page_content" | grep -oP 'https://(www\.)?ynetnews.com/article/[0-9a-zA-Z]+' | sort | uniq)
+articles=$(echo "$main_page_content" | grep -oP 'https://(www.)?ynetnews\.com/article/[0-9a-zA-Z]+' | sort | uniq)
 
-# Function to process each article
-process_article() {
-    url="$1"
-    
-    # Download the article content
-    article_content=$(wget --no-check-certificate -q -O - "$url" 2>/dev/null)
-    
-    # Count occurrences of 'Netanyahu' and 'Gantz' using awk
-    echo "$article_content" | awk -v url="$url" '
-    BEGIN {
-        N_count = 0
-        G_count = 0
-    }
+# Process each article URL
+for url in $articles; do
     {
-        N_count += gsub(/Netanyahu/, "", $0)
-        N_count += gsub(/netanyahu/, "", $0)
-        G_count += gsub(/Gantz/, "", $0)
-        G_count += gsub(/gantz/, "", $0)
-    }
-    END {
-        if (N_count == 0 && G_count == 0) {
-            print url ", -"
-        } else {
-            print url ", Netanyahu, " N_count ", Gantz, " G_count
-        }
-    }'
-}
+        # Download the article content
+        article_content=$(wget --no-check-certificate -q -O - "$url" 2>/dev/null)
 
-export -f process_article
+        # Count occurrences of 'Netanyahu' and 'Gantz' using a single grep call and process substitution
+        N_count=$(echo "$article_content" | grep -o -i "Netanyahu" | wc -l)
+        G_count=$(echo "$article_content" | grep -o -i "Gantz" | wc -l)
 
-# Process articles in parallel using xargs
-echo "$articles" | xargs -n 1 -P 10 bash -c 'process_article "$@"' _
+        # Output the result in the specified format
+        if (( N_count == 0 && G_count == 0 )); then
+            echo "$url, -"
+        else
+            echo "$url, Netanyahu, $N_count, Gantz, $G_count"
+        fi
+    } &
+done
 
 # Wait for all background jobs to complete
 wait
